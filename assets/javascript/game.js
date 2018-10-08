@@ -8,6 +8,7 @@
  var masterWord = "";
  var emptyWord = [];
  var showWord = "";
+ var emptyWord1 = [];
  
   // function to generate a random word called masterWord.
   function GenerateRandomWord()
@@ -69,6 +70,9 @@
   // function to execute when onkeyup event fires.
   document.onkeyup = function(event) {
 
+    // go ahead only if valid key - as in letters only
+    if (event.keyCode >= 65 && event.keyCode <= 90) 
+    {
     // check whether to continue with current word or new game
     // decide if user already guessed the word 
       checkifMatch();  
@@ -76,6 +80,7 @@
       {
           ttlWins++; 
           // reset stats and start a new game
+          alert ("Hurray! You won!");
           GenerateRandomWord();
           resetGame();         
       }
@@ -83,6 +88,7 @@
       {
         ttlLosses++;
         // reset stats and start a new game
+        alert ("Oops! Sorry, You Lost this time! The randomWord was: " + masterWord);
         GenerateRandomWord();
         resetGame();
       }      
@@ -90,7 +96,14 @@
       {
           // user continuing to guess
         NumGuessesLeft--;
-        lettersTried = lettersTried + " , " + event.key;
+        if (lettersTried == "" )
+        {
+            lettersTried = event.key;
+        }
+        else
+        {
+            lettersTried = lettersTried + " , " + event.key;
+        }
 
         // traverse to fill empty word 
         for (var i=0;i<masterWord.length;i++)
@@ -104,11 +117,12 @@
                 document.getElementById("GoodGuess").textContent = Guessed;                
             }          
         }
-        
+        emptyWord1 = emptyWord.join(" ");
         // updates displays
         document.getElementById("GuessesRemaining").textContent = NumGuessesLeft;
         document.getElementById("lettersTried").textContent = lettersTried;
-        document.getElementById("strEmptyWord").textContent = emptyWord;
+        document.getElementById("strEmptyWord").textContent = emptyWord1;
       }
     displays();
+    } // end of if - to handle letters only.
 };
